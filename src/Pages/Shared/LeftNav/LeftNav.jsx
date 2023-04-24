@@ -8,11 +8,11 @@ const LeftNav = () => {
             .then(res => res.json())
             .then(data => setCategories(data))
     }, [])
-    console.log(categories)
+    // console.log(categories)
     return (
         <div>
-            <h4 className='mb-4'>All Category</h4>
-            <h4 className='bg-secondary bg-opacity-25 p-3 rounded text-center'>National News</h4>
+            <h5 className='mb-4 fw-bold'>All Category</h5>
+            <h5 className='bg-secondary bg-opacity-25 p-3 fw-bold rounded text-center'>National News</h5>
             <div className='ps-5'>
                 {
                     categories.map(category => <p key={category.id}>
