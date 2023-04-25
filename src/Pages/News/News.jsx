@@ -2,9 +2,10 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link, useLoaderData } from 'react-router-dom';
+import EditorInsight from './EditorInside';
 
 const News = () => {
-    const news = useLoaderData()
+    const news = useLoaderData();
     const { category_id, title, details, image_url} = news;
     return (
         <div>
@@ -22,6 +23,7 @@ const News = () => {
                     </Link>
                 </Card.Body>
             </Card>
+            <EditorInsight></EditorInsight>
         </div>
     );
 };
