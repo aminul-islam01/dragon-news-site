@@ -1,13 +1,41 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import NavigationBar from '../Shared/NavigationBar/NavigationBar';
 import { Button, Form, Row } from 'react-bootstrap';
+import { UserContext } from '../../Providers/AuthProviders';
 
 const Register = () => {
+    const { createUser, emailVerified } = useContext(UserContext);
+
+    const handleRegister = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        createUser(email, password)
+            .then((result) => {
+                const loggedUser = result.user;
+                loggedUser.displayName = name;
+
+                emailVerified()
+                    .then(() => {
+                        alert('check your email and verification this email')
+                    });
+
+                console.log(loggedUser)
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                console.log(errorMessage)
+            });
+    }
+
     return (
         <div className='bg-light'>
             <NavigationBar></NavigationBar>
             <Row xs={1} md={2} lg={3}>
-                <div className='mx-auto mt-5 rounded shadow p-5' style={{ background: "white" }}>
+                <Form onSubmit={handleRegister} className='mx-auto mt-5 rounded shadow p-5' style={{ background: "white" }}>
                     <h4 className='fw-bold text-center py-3'>Register your account</h4>
                     <hr />
                     <Form.Group className="mb-3">
@@ -31,7 +59,7 @@ const Register = () => {
                         <Form.Check type="checkbox" label="Accept Term & Conditions" />
                     </Form.Group>
                     <Button className='w-100' variant="dark" type="submit">Register</Button>
-                </div>
+                </Form>
             </Row>
         </div>
     );

@@ -1,10 +1,12 @@
-import React from 'react';
-import profile from '../../../assets/qZone1.png'
+import React, { useContext } from 'react';
+import profile from '../../../assets/userLogo.png'
 import Image from 'react-bootstrap/Image';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../../Providers/AuthProviders';
 
 const NavigationBar = () => {
+    const {user, logOut} = useContext(UserContext);
     return (
         <Navbar collapseOnSelect expand="lg" bg="light" variant="light" className='mt-2' sticky='top'>
             <Container>
@@ -16,9 +18,12 @@ const NavigationBar = () => {
                         <Nav.Link href="#pricing">Career</Nav.Link>
                     </Nav>
                     <Nav>
-                        <Image className='border border-2 border-dark me-3' style={{ width: '40px', height: '40px' }} src={profile} roundedCircle />
+                        {user && <Image className='border border-2 border-dark me-3' style={{ width: '40px', height: '40px' }} src={user.photoURL?(user.photoURL):profile} roundedCircle />}
                         <Button variant='dark' className='rounded-0 px-5 fw-bold'>
+                            {user?<Link onClick={logOut} className='text-decoration-none text-light' to="/login">Logout</Link>
+                            :
                             <Link className='text-decoration-none text-light' to="/login">Login</Link>
+                            }
                         </Button>
                     </Nav>
                 </Navbar.Collapse>
