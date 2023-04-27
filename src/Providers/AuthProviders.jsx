@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import app from '../Firebase/Firebase.config';
 
 
@@ -44,6 +44,19 @@ const AuthProviders = ({children}) => {
         return sendEmailVerification(auth.currentUser)
     }
 
+    const proFileUpdate = (loggedUser, name, photo) => {
+        updateProfile(loggedUser, {
+          displayName: name,
+          photoURL: photo,
+        })
+          .then((result) => {
+            console.log("profile updated");
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      };
+
     useEffect( () =>{
         const unsubscribe = onAuthStateChanged(auth, (user) => {
               setUser(user);
@@ -54,7 +67,7 @@ const AuthProviders = ({children}) => {
           }
 
     }, [])
-    console.log(user)
+    // console.log(user)
     const userInfo = {
         user,
         handleGoogleSignIn,
@@ -63,7 +76,8 @@ const AuthProviders = ({children}) => {
         loginUser,
         logOut,
         loading,
-        emailVerified
+        emailVerified,
+        proFileUpdate
     }
 
     return (

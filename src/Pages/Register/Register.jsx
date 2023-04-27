@@ -4,12 +4,13 @@ import { Button, Form, Row } from 'react-bootstrap';
 import { UserContext } from '../../Providers/AuthProviders';
 
 const Register = () => {
-    const { createUser, emailVerified } = useContext(UserContext);
+    const { createUser, emailVerified, proFileUpdate } = useContext(UserContext);
 
     const handleRegister = (event) => {
         event.preventDefault();
         const form = event.target;
         const name = form.name.value;
+        const photo = form.photo.value;
         const email = form.email.value;
         const password = form.password.value;
 
@@ -17,6 +18,8 @@ const Register = () => {
             .then((result) => {
                 const loggedUser = result.user;
                 loggedUser.displayName = name;
+
+                proFileUpdate(loggedUser, name, photo);
 
                 emailVerified()
                     .then(() => {
@@ -44,7 +47,7 @@ const Register = () => {
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label className='fw-bold'>Photo URL</Form.Label>
-                        <Form.Control type='image_url' name='image' placeholder="Select your photo" />
+                        <Form.Control type='file' name='photo' placeholder="Select your photo" />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label className='fw-bold'>Email</Form.Label>
