@@ -13,9 +13,11 @@ const NavigationBar = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mx-auto">
-                        <Link to='/'>Home</Link>
-                        <Nav.Link href="#pricing">About</Nav.Link>
-                        <Nav.Link href="#pricing">Career</Nav.Link>
+                        <Link className='text-decoration-none me-4 text-secondary' to='/'>Home</Link>
+                        <Link className='text-decoration-none me-4 text-secondary' to=''>About</Link>
+                        <Link className='text-decoration-none me-4 text-secondary' to=''>Career</Link>
+                        {/* <Nav.Link href="#pricing">About</Nav.Link>
+                        <Nav.Link href="#pricing">Career</Nav.Link> */}
                     </Nav>
                     <Nav>
                         {user && <Image className='border border-2 border-dark me-3' style={{ width: '40px', height: '40px' }} src={user.photoURL?(user.photoURL):profile} roundedCircle />}

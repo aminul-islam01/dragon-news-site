@@ -7,9 +7,9 @@ const Header = () => {
     return (
         <Container className='pt-5'>
             <div className='text-center'>
-                <img src={logo} alt="" />
-                <p className=''>Journalism Without Fear or Favour</p>
-                <h4>{moment().format("dddd, MMMM D, YYYY")}</h4>
+                <img className='w-50' src={logo} alt="" />
+                <p className='my-2'>Journalism Without Fear or Favour</p>
+                <h4 className='mb-3'>{moment().format("dddd, MMMM D, YYYY")}</h4>
             </div>
         </Container>
     );
