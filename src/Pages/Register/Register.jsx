@@ -1,12 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import NavigationBar from '../Shared/NavigationBar/NavigationBar';
 import { Button, Form, Row } from 'react-bootstrap';
 import { UserContext } from '../../Providers/AuthProviders';
 
 const Register = () => {
     const { createUser, emailVerified, proFileUpdate } = useContext(UserContext);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [accept, setAccept] = useState(false);
 
     const handleRegister = (event) => {
+        setError('');
+        setSuccess('');
         event.preventDefault();
         const form = event.target;
         const name = form.name.value;
@@ -16,23 +21,28 @@ const Register = () => {
 
         createUser(email, password)
             .then((result) => {
-                const loggedUser = result.user;
-                loggedUser.displayName = name;
+                const registerUser = result.user;
 
-                proFileUpdate(loggedUser, name, photo);
+                proFileUpdate(registerUser, name, photo);
 
                 emailVerified()
                     .then(() => {
                         alert('check your email and verification this email')
                     });
-
-                console.log(loggedUser)
+                setSuccess('user has been create successfully');
+                form.reset();
+                console.log(registerUser)
             })
             .catch((error) => {
                 const errorMessage = error.message;
-                console.log(errorMessage)
+                setError(errorMessage);
             });
     }
+
+    const handleAccept = event => {
+        const checked = event.target.checked;
+        setAccept(checked);
+    } 
 
     return (
         <div className='bg-light'>
@@ -43,25 +53,27 @@ const Register = () => {
                     <hr />
                     <Form.Group className="mb-3">
                         <Form.Label className='fw-bold'>Your Name</Form.Label>
-                        <Form.Control type='text' name='name' placeholder="Enter your name" />
+                        <Form.Control type='text' name='name' placeholder="Enter your name" required />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label className='fw-bold'>Photo URL</Form.Label>
-                        <Form.Control type='file' name='photo' placeholder="Select your photo" />
+                        <Form.Control type='file' name='photo' placeholder="Select your photo" required />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label className='fw-bold'>Email</Form.Label>
-                        <Form.Control type='email' name='email' placeholder="Enter your email address" />
+                        <Form.Control type='email' name='email' placeholder="Enter your email address" required />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label className='fw-bold'>Password</Form.Label>
-                        <Form.Control type='password' name='password' placeholder="Enter your password" />
+                        <Form.Control type='password' name='password' placeholder="Enter your password" required />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Check type="checkbox" label="Accept Term & Conditions" />
+                        <Form.Check type="checkbox" onClick={handleAccept} label="Accept Term & Conditions" />
                     </Form.Group>
-                    <Button className='w-100' variant="dark" type="submit">Register</Button>
+                    <p className='text-danger mt-1'>{error}</p>
+                    <p className='text-success'>{success}</p>
+                    <Button className='w-100' variant="dark" type="submit" disabled={!accept}>Register</Button>
                 </Form>
             </Row>
         </div>
